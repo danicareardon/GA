@@ -62,15 +62,16 @@ function run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR
                 if strcmp(TOURNAMENT,'off')
                     SelCh=select('sus', Chrom, FitnV, GGAP);
                 elseif strcmp(TOURNAMENT,'binary')
-                    [m ~] = size(Chrom);
+                    [m n] = size(Chrom);
                     m = round(GGAP*m);
                     ChrIx=tournament(FitnV,m,2);
-                    SelCh=Chrom(ChrIx,:);
+                    SelCh = zeros(
+                    SelCh=[SelCh; Chrom(ChrIx,:)];
                 else
-                    [m ~] = size(Chrom);
-                    m = round(GGAP*m);
-                    ChrIx=tournament(FitnV,m,10);
-                    SelCh=Chrom(ChrIx,:);
+                    [s ~] = size(Chrom);
+                    s = round(GGAP*s);
+                    ChrIx=tournament(FitnV,s,2);
+                    SelCh=[SelCh; Chrom(ChrIx,:)];
                 end
             else
                 SelCh=crowd_select(Chrom);

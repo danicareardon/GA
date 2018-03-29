@@ -17,9 +17,8 @@
 %                The new population, ready for mating, can be obtained
 %                by calculating OldChrom(NewChrIx,:).
 
-function NewChrIx = tournament(FitnV,Nsel);
+function NewChrIx = tournament(FitnV,Nsel,tournSize);
 
-tournSize = 10;
 [Nind,~] = size(FitnV);
 NewChrIx = zeros(Nsel,1);
 

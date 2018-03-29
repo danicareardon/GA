@@ -13,6 +13,9 @@ PR_CROSS=.95;     % probability of crossover
 PR_MUT=.05;       % probability of mutation
 LOCALLOOP=0;      % local loop removal
 CROSSOVER = 'pmx_crossover';  % default crossover operator
+SELECTION = 'reinsert';
+TOURNAMENT = 'off';
+CROWDING = 'off';
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % read an existing population
@@ -110,7 +113,10 @@ crosssliderv = uicontrol(ph,'Style','text','String',round(PR_CROSS*100),'Positio
 elitslidertxt = uicontrol(ph,'Style','text','String','% elite','Position',[0 80 130 20]);
 elitslider = uicontrol(ph,'Style','slider','Max',100,'Min',0,'Value',round(ELITIST*100),'Sliderstep',[0.01 0.05],'Position',[130 80 150 20],'Callback',@elitslider_Callback);
 elitsliderv = uicontrol(ph,'Style','text','String',round(ELITIST*100),'Position',[280 80 50 20]);
-crossover = uicontrol(ph,'Style','popupmenu', 'String',{'xalt_edges'}, 'Value',1,'Position',[10 50 130 20],'Callback',@crossover_Callback);
+crossover = uicontrol(ph,'Style','popupmenu', 'String',{'pmx_edges'}, 'Value',1,'Position',[10 50 130 20],'Callback',@crossover_Callback);
+selection = uicontrol(ph,'Style','popupmenu', 'String',{'reinsert', 'mu_and_lambda'}, 'Value',1,'Position',[130 50 130 20],'Callback',@selection_Callback);
+tournament = uicontrol(ph,'Style','popupmenu', 'String',{'off', 'binary', '10-tournament'}, 'Value',1,'Position',[250 50 130 20],'Callback',@tournament_Callback);
+crowding = uicontrol(ph,'Style','popupmenu', 'String',{'off', 'crowding'}, 'Value',1,'Position',[370 50 130 20],'Callback',@crowding_Callback);
 %inputbutton = uicontrol(ph,'Style','pushbutton','String','Input','Position',[55 10 70 30],'Callback',@inputbutton_Callback);
 runbutton = uicontrol(ph,'Style','pushbutton','String','START','Position',[0 10 50 30],'Callback',@runbutton_Callback);
 
@@ -186,6 +192,24 @@ set(fh,'Visible','on');
         CROSSOVER = crossovers(crossover_value);
         CROSSOVER = CROSSOVER{1};
     end
+    function selection_Callback(hObject,eventdata)
+        selection_value = get(hObject,'Value');
+        selections = get(hObject,'String');
+        SELECTION = selections(selection_value);
+        SELECTION = SELECTION{1};
+    end
+    function tournament_Callback(hObject,eventdata)
+        tournament_value = get(hObject,'Value');
+        tournaments = get(hObject,'String');
+        TOURNAMENT = tournaments(tournament_value);
+        TOURNAMENT = TOURNAMENT{1};
+    end
+    function crowding_Callback(hObject,eventdata)
+        crowding_value = get(hObject,'Value');
+        crowdings = get(hObject,'String');
+        CROWDING = crowdings(crowding_value);
+        CROWDING = CROWDING{1};
+    end
     function runbutton_Callback(hObject,eventdata)
         %set(ncitiesslider, 'Visible','off');
         set(nindslider,'Visible','off');
@@ -193,7 +217,7 @@ set(fh,'Visible','on');
         set(mutslider,'Visible','off');
         set(crossslider,'Visible','off');
         set(elitslider,'Visible','off');
-        run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3);
+        run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, SELECTION, TOURNAMENT, CROWDING, ah1, ah2, ah3);
         end_run();
     end
     function inputbutton_Callback(hObject,eventdata)
