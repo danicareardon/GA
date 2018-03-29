@@ -8,8 +8,8 @@
 %   written by Danica Reardon (d.reardon@live.com)
 function [ChromSel, FitSel] = crowding(OldChrom,NewChrom,Dist);
     [m,n] = size(OldChrom);
-    FitOld = tspfun_path(OldChrom,Dist);
-    FitNew = tspfun_path(NewChrom,Dist);
+    FitOld = tspfun(OldChrom,Dist);
+    FitNew = tspfun(NewChrom,Dist);
     ChromSel = zeros(m,n);
     FitSel = zeros(m,1);
     for i = 1:2:m
