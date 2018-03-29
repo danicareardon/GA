@@ -64,7 +64,8 @@ function run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR
             SelCh = recombin(CROSSOVER,SelCh,PR_CROSS);
             SelCh=mutateTSP('inversion',SelCh,PR_MUT);
             %evaluate offspring, call objective function
-        	ObjVSel = tspfun(SelCh,Dist);
+        	% ObjVSel = tspfun(SelCh,Dist);
+            [SelCh, ObjVSel] = crowding(Selected,SelCh,Dist);
             %reinsert offspring into population
         	[Chrom, ObjV]=mu_and_lambda(Chrom,SelCh,ObjV,ObjVSel);
             
