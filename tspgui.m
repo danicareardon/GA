@@ -12,7 +12,7 @@ STOP_PERCENTAGE=.95;    % percentage of equal fitness individuals for stopping
 PR_CROSS=.95;     % probability of crossover
 PR_MUT=.05;       % probability of mutation
 LOCALLOOP=0;      % local loop removal
-CROSSOVER = 'xalt_edges';  % default crossover operator
+CROSSOVER = 'pmx_crossover';  % default crossover operator
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % read an existing population
@@ -54,6 +54,21 @@ end
 % start with first dataset
 data = load(['datasets/' datasets{1}]);
 x=data(:,1)/max([data(:,1);data(:,2)]);y=data(:,2)/max([data(:,1);data(:,2)]);
+NVAR=size(data,1);
+
+datasets
+% load the data sets
+datasetslist = dir('datasets/');datasetslist = dir('datasets/');
+datasets=cell( size(datasetslist,1)-2,1);datasets=cell( size(datasetslist,1)-2 ,1);
+for i=1:size(datasets,1);
+    datasets{i} = datasetslist(i+2).name;
+end
+
+% start with first dataset
+data = load(['datasets/' datasets{1}]);
+%x=data(:,1)/max([data(:,1);data(:,2)]);y=data(:,2)/max([data(:,1);data(:,2)]);
+x=data(:,1);y=data(:,2);
+
 NVAR=size(data,1);
 
 datasets
